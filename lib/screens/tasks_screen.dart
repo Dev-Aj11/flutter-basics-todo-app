@@ -1,22 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/tasks_list.dart';
 import './add_task_screen.dart';
-import '../models/Task.dart';
+import '../models/task_list_model.dart';
+import 'package:provider/provider.dart';
 
-class TasksScreen extends StatefulWidget {
-  @override
-  State<TasksScreen> createState() => _TasksScreenState();
-}
-
-class _TasksScreenState extends State<TasksScreen> {
-  List<Task> taskList = [];
-
-  void addNewTask(newTask) {
-    setState(() {
-      taskList.add(Task(newTask, false));
-    });
-  }
-
+class TasksScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +30,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   // viewInsets.bottom = top of the keyboard
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
-                child: AddTaskScreen(addNewTask),
+                child: AddTaskScreen(),
               ),
             ),
           ); // showModalBottomSheet
@@ -78,7 +66,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   ),
                 ),
                 Text(
-                  '12 tasks',
+                  '${Provider.of<TaskListModel>(context).getNumTasks()} tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -97,7 +85,7 @@ class _TasksScreenState extends State<TasksScreen> {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: TaskList(this.taskList),
+              child: TaskList(),
             ),
           ),
         ],

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../models/task_list_model.dart';
 
 class AddTaskScreen extends StatelessWidget {
-  final Function updateTaskList;
-
-  AddTaskScreen(this.updateTaskList);
-
   final myController = TextEditingController();
 
   @override
@@ -33,8 +31,12 @@ class AddTaskScreen extends StatelessWidget {
           ),
           ElevatedButton(
             onPressed: () {
-              // trigger setState
-              updateTaskList(myController.text);
+              // update Model which will notify all listeners to update
+              Provider.of<TaskListModel>(context, listen: false)
+                  .addTasks(myController.text);
+
+              // dismiss modal
+              Navigator.pop(context);
             },
             child: Text(
               "Add",
